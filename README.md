@@ -2,39 +2,39 @@
 
 ## Usage
 
-  struct T {
-    T1 t1;
-    T2 t2;
-    T2 t3;
-    ...
-    TN tN;
-  } t;
+    struct T {
+      T1 t1;
+      T2 t2;
+      T2 t3;
+      ...
+      TN tN;
+    } t;
 
 Then `foreachMember(t, callback);` is the equivalent to the following code:
 
-  callback(t.t1);
-  callback(t.t2);
-  callback(t.t3);
-  ...
-  callback(t.tN);
+    callback(t.t1);
+    callback(t.t2);
+    callback(t.t3);
+    ...
+    callback(t.tN);
 
 ## Example
 
-  struct A {
-    char c;
-    std::string s;
-    int i;
-  } a;
+    struct A {
+      char c;
+      std::string s;
+      int i;
+    } a;
 
-  a.i = 42;
-  a.s = "test";
-  a.c = 'c';
+    a.i = 42;
+    a.s = "test";
+    a.c = 'c';
 
-  foreachMember(a, [](auto&& v) {
-     std::cout << v << ", ";
-  });
+    foreachMember(a, [](auto&& v) {
+       std::cout << v << ", ";
+    });
 
-  // this code prints "c, test, 42, "
+    // this code prints "c, test, 42, "
 
 ## Requirement
 
@@ -50,46 +50,46 @@ Note: if T has bit field, using foreachMember results undefined behavior.
 
 Figuratively speaking, here is an example which satisfies all requirements
 
-  class T {
-   public:
-    double d;
-    const std::vector<U> v; // U does not matter, const is fine
-    std::unique_ptr<U> p; // non-copyable is fine
-    U* ptr; // pointer is fine
+    class T {
+     public:
+      double d;
+      const std::vector<U> v; // U does not matter, const is fine
+      std::unique_ptr<U> p; // non-copyable is fine
+      U* ptr; // pointer is fine
 
-    U foo(std::string); // member function is fine
-    void* operator&(); // overloading is fine
+      U foo(std::string); // member function is fine
+      void* operator&(); // overloading is fine
 
-    struct A {
-      std::optional<int> u;
-    } a; // any standard layout type is fine
-    std::thread t; // most types under std:: are fine, only few exceptions
+      struct A {
+        std::optional<int> u;
+      } a; // any standard layout type is fine
+      std::thread t; // most types under std:: are fine, only few exceptions
 
-   private:
-    static U u; // static private is fine, it'll be ignored
-  };
+     private:
+      static U u; // static private is fine, it'll be ignored
+    };
 
 Here is a counterexample which does not satisfy some requirements, therefore it can't be used by foreachMember
 
-  struct T : std::set<int> // base class is not supported
-  {
-    T() {} // any custom ctor is not supported, even it's empty
-    const int& ref; // reference is not default constructible
-    virtual void foo(); // virtual function breaks standard layout
-
-    std::condition_variable cv; // non-moveable is not supported
-
-    // All members must be standard layout type.
-    // These are counterexamples that can't be data member.
-    std::exception e;
-    std::fstream f;
-    std::function<void()> func;
-    std::tuple<int,int> t;
-    struct M { virtual ~M(); } m;
-
-    int x = 10; // default member initializer is not supported
-
-   protected:
-    int x; // private/protected non-static data member is not supported
-  };
+    struct T : std::set<int> // base class is not supported
+    {
+      T() {} // any custom ctor is not supported, even it's empty
+      const int& ref; // reference is not default constructible
+      virtual void foo(); // virtual function breaks standard layout
+  
+      std::condition_variable cv; // non-moveable is not supported
+  
+      // All members must be standard layout type.
+      // These are counterexamples that can't be data member.
+      std::exception e;
+      std::fstream f;
+      std::function<void()> func;
+      std::tuple<int,int> t;
+      struct M { virtual ~M(); } m;
+  
+      int x = 10; // default member initializer is not supported
+  
+     protected:
+      int x; // private/protected non-static data member is not supported
+    };
 
