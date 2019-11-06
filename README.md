@@ -38,12 +38,12 @@ Then `foreachMember(t, callback);` is the equivalent to the following code:
 
 ## Requirement
 
-1. T must be standard layout type (https://fburl.com/587498861)
-2. T should be aggregate (https://fburl.com/587478985)
+1. T must be standard layout type (https://en.cppreference.com/w/cpp/named_req/StandardLayoutType)
+2. T should be aggregate (https://en.cppreference.com/w/cpp/language/aggregate_initialization)
 3. All non-static data member should be default constructible
 4. All non-static data member must be move constructible
 5. All non-static data member must not have template converting constructor
-6. T must not have bit field (https://fburl.com/340998699604242)
+6. T must not have bit field (https://en.cppreference.com/w/cpp/language/bit_field)
 
 Note: if T has bit field, using foreachMember results undefined behavior.
       otherwise, it should either work, or give you compile-error.
