@@ -1,0 +1,14 @@
+language: cpp
+compiler:
+  - gcc
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-9
+    - libboost-dev
+install:
+- "[ $CXX = g++ ] && export CXX=g++-9 || true"
+script:
+  - make

@@ -1,6 +1,18 @@
-# Iterate over members in struct, no hacks required!
+Iterate over members in struct, no hacks required!  |travis| |license|
+======================================================================
 
-## Usage
+.. |travis| image:: https://travis-ci.com/Mizuchi/ForeachMember.svg?branch=master
+   :target: https://travis-ci.com/Mizuchi/ForeachMember
+   :alt: Travis Build Status
+
+.. |license| image:: https://img.shields.io/badge/license-RPL%201.5-blueviolet
+   :target: https://opensource.org/licenses/RPL-1.5
+   :alt: License: RPL-1.5
+
+Usage
+---------
+
+.. code-block:: cpp
 
     struct T {
       T1 t1;
@@ -12,13 +24,18 @@
 
 Then `foreachMember(t, callback);` is the equivalent to the following code:
 
+.. code-block:: cpp
+
     callback(t.t1);
     callback(t.t2);
     callback(t.t3);
     ...
     callback(t.tN);
 
-## Example
+Example
+-----------
+
+.. code-block:: cpp
 
     struct A {
       char c;
@@ -36,7 +53,8 @@ Then `foreachMember(t, callback);` is the equivalent to the following code:
 
     // this code prints "c, test, 42, "
 
-## Requirement
+Requirement
+--------------------
 
 1. T must be standard layout type (https://en.cppreference.com/w/cpp/named_req/StandardLayoutType)
 2. T should be aggregate (https://en.cppreference.com/w/cpp/language/aggregate_initialization)
@@ -49,6 +67,8 @@ Note: if T has bit field, using foreachMember results undefined behavior.
       otherwise, it should either work, or give you compile-error.
 
 Figuratively speaking, here is an example which satisfies all requirements
+
+.. code-block:: cpp
 
     class T {
      public:
@@ -70,6 +90,8 @@ Figuratively speaking, here is an example which satisfies all requirements
     };
 
 Here is a counterexample which does not satisfy some requirements, therefore it can't be used by foreachMember
+
+.. code-block:: cpp
 
     struct T : std::set<int> // base class is not supported
     {

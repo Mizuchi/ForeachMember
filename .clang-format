@@ -1,0 +1,5 @@
+---
+BasedOnStyle: llvm
+Standard:     Cpp11
+IndentWidth:  4
+...
