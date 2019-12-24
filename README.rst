@@ -35,6 +35,8 @@ Then `foreachMember(t, callback);` is the equivalent to the following code:
 Example
 -----------
 
+Try it online: https://godbolt.org/z/5n3Zjz
+
 .. code-block:: cpp
 
     struct A {
