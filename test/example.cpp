@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE(example) {
 
     std::ostringstream sout;
     foreachMember(a, [&sout](auto &&v) { sout << v << ", "; });
-    BOOST_TEST(sout.str() == "c, test, 42, ");
+    BOOST_CHECK_EQUAL(sout.str(), "c, test, 42, ");
 }
 
 BOOST_AUTO_TEST_CASE(simple) {
@@ -49,33 +49,33 @@ BOOST_AUTO_TEST_CASE(plain_struct) {
 
     struct {
         void operator()(int &i) {
-            BOOST_TEST(idx == 0);
-            BOOST_TEST(i == 100);
+            BOOST_CHECK_EQUAL(idx, 0);
+            BOOST_CHECK_EQUAL(i, 100);
             i = 42; // member can be modified
             idx++;
         }
         void operator()(std::string &s) {
             if (idx == 1) {
-                BOOST_TEST(s == "hello");
+                BOOST_CHECK_EQUAL(s, "hello");
             } else {
-                BOOST_TEST(idx == 5);
-                BOOST_TEST(s == "world");
+                BOOST_CHECK_EQUAL(idx, 5);
+                BOOST_CHECK_EQUAL(s, "world");
             }
             idx++;
         }
         void operator()(char &c) {
-            BOOST_TEST(idx == 2);
-            BOOST_TEST(c == 'a');
+            BOOST_CHECK_EQUAL(idx, 2);
+            BOOST_CHECK_EQUAL(c, 'a');
             idx++;
         }
         void operator()(std::vector<int> &v) {
-            BOOST_TEST(idx == 3);
-            BOOST_TEST(v == std::vector<int>({3, 4, 5}));
+            BOOST_CHECK_EQUAL(idx, 3);
+            BOOST_CHECK(v == std::vector<int>({3, 4, 5}));
             idx++;
         }
         void operator()(double &d) {
-            BOOST_TEST(idx == 4);
-            BOOST_TEST(d == 5);
+            BOOST_CHECK_EQUAL(idx, 4);
+            BOOST_CHECK_EQUAL(d, 5);
             idx++;
         }
 
@@ -83,8 +83,8 @@ BOOST_AUTO_TEST_CASE(plain_struct) {
     } checker;
 
     foreachMember(a, checker);
-    BOOST_TEST(checker.idx == 6);
-    BOOST_TEST(a.i == 42);
+    BOOST_CHECK_EQUAL(checker.idx, 6);
+    BOOST_CHECK_EQUAL(a.i, 42);
 }
 
 static auto isSame = [](const auto &x, const auto &y) {
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_CASE(documentation) {
             break;
         }
     });
-    BOOST_TEST(idx == 6);
+    BOOST_CHECK_EQUAL(idx, 6);
 }
 } // namespace documentation_example
 
