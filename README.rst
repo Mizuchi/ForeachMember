@@ -1,13 +1,5 @@
-Iterate over members in struct, no hacks required!  |travis| |license|
-======================================================================
-
-.. |travis| image:: https://travis-ci.com/Mizuchi/ForeachMember.svg?branch=master
-   :target: https://travis-ci.com/Mizuchi/ForeachMember
-   :alt: Travis Build Status
-
-.. |license| image:: https://img.shields.io/badge/license-RPL%201.5-blueviolet
-   :target: https://opensource.org/licenses/RPL-1.5
-   :alt: License: RPL-1.5
+Iterate over members in struct, no hacks required!
+==================================================
 
 Usage
 ---------
